@@ -1,6 +1,7 @@
 # -*- coding utf-8 -*-
 
 import zipfile
+from pprint import pprint
 
 # zip_file_name = 'voyna-i-mir.txt.zip'
 # zip_file = zipfile.ZipFile(zip_file_name, 'r')
@@ -25,4 +26,5 @@ with open(file_name, 'r', encoding='cp1251') as file:
                      stat[prev_char][char] = 1
              else:
                  stat[prev_char] = {char : 1}
-print(stat)
+             prev_char = char
+pprint(stat)
