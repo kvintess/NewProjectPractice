@@ -27,4 +27,18 @@ with open(file_name, 'r', encoding='cp1251') as file:
              else:
                  stat[prev_char] = {char : 1}
              prev_char = char
-pprint(stat)
+# pprint(stat)
+
+totals = {}
+stat_for_generate = {}
+
+for prev_char, char_stat in stat.items():
+    totals[prev_char] = 0
+    stat_for_generate[prev_char] = []
+    for char, count in char_stat.items():
+        totals[prev_char] += count
+        stat_for_generate[prev_char].append([count,char])
+    stat_for_generate[prev_char].sort()
+
+pprint(totals)
+pprint(stat_for_generate)
