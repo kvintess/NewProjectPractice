@@ -14,20 +14,23 @@ class Chatterer:
 
     analyze_count = 4
 
-    def __init__(self,zip_file_name):
-        self.zip_file_name = zip_file_name
+    def __init__(self, file_name):
+        self.file_name = file_name
         self.stat = {}
 
     def unzip(self):
-        zfile = zipfile.ZipFile(self.zip_file_name, 'r')
+        zfile = zipfile.ZipFile(self.file_name, 'r')
         for filename in zfile.namelist():
             zfile.extract(filename)
-        return filename
-    def collect(self, file_name):
+        self.filename = filename
+    def collect(self):
+
+        if self.file_name.endswith('.zip'):
+            self.unzip()
 
         sequence = ' ' * self.analyze_count
 
-        with open(file_name, 'r', encoding='cp1251') as file:
+        with open(self.file_name, 'r', encoding='cp1251') as file:
             for line in file:
                 line = line[:-1]
                 # print(line)
@@ -52,9 +55,13 @@ class Chatterer:
                 self.stat_for_generate[sequence].append([count, char])
                 self.stat_for_generate[sequence].sort(reverse=True)
 
-    def chat(self, N):
+    def chat(self, N, out_file_name=None):
         self.N = 1000
         printed = 0
+        if out_file_name is not None:
+            file = open(out_file_name, 'w', encoding='utf8')
+        else:
+            file = None
 
         sequence = ' ' * self.analyze_count
         spaces_printed = 0
@@ -67,22 +74,26 @@ class Chatterer:
                 pos += count
                 if dice <= pos:
                     break
+            if file:
+                file.write(char)
+            else:
+                print(char, end='')
             print(char, end='')
             if char == ' ':
                 spaces_printed += 1
                 if spaces_printed >= 10:
+
                     print()
                     spaces_printed = 0
             printed += 1
             sequence = sequence[1:] + char
+        if file:
+            file.close()
 
-
-chatterer = Chatterer(zip_file_name='voyna-i-mir.txt.zip')
-
-file_name = chatterer.unzip()
-chatterer.collect(file_name)
+chatterer = Chatterer(file_name='voyna-i-mir.txt')
+chatterer.collect()
 chatterer.prepare()
-chatterer.chat(N=10000)
+chatterer.chat(N=10000, out_file_name='out.txt')
 
 
 
