@@ -15,7 +15,7 @@ stat = {}
 
 analyze_count = 4
 
-sequence = '   ' * analyze_count
+sequence = ' ' * analyze_count
 
 with open(file_name, 'r', encoding='cp1251') as file:
      for line in file:
@@ -31,7 +31,7 @@ with open(file_name, 'r', encoding='cp1251') as file:
                  stat[sequence] = {char: 1}
              sequence = sequence[1:] + char
 #
-# pprint(stat)
+pprint(len(stat))
 
 totals = {}
 stat_for_generate = {}
@@ -47,7 +47,7 @@ for sequence, char_stat in stat.items():
 N = 1000
 printed = 0
 
-sequence = '   ' * analyze_count
+sequence = ' ' * analyze_count
 spaces_printed = 0
 while printed < N:
     char_stat = stat_for_generate[sequence]
